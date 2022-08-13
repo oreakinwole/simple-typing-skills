@@ -10,9 +10,15 @@
     "test": "jest --watch"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.0.0",
+    "@chakra-ui/react": "^1.0.0-rc.8",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "framer-motion": "^4",
     "next": "12.2.5",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "react-timer-hook": "^3.0.4"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",
