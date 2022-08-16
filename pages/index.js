@@ -13,10 +13,14 @@ export default function Home() {
   const [writeUp, setWriteUp] = useState("");
   const [userInput, setUserInput] = useState("");
 
-  let points = 0;
-  let totalAvailablePoints = writeUp ? writeUp.length : 0;
+  const [calcData, setCalcData] = useState({
+    points: 0,
+    currentIndex: 0,
+  });
 
-  const challengeArray = writeUp ? writeUp.split(" ") : [];
+  let totalAvailablePoints = writeUp ? writeUp.split(" ").length : 0;
+
+  const challengeArray = writeUp ? writeUp.trim().split(" ") : [];
 
   const fmtTime = new Date();
   fmtTime.setSeconds(fmtTime.getSeconds() + 60 * startTimeValue);
@@ -36,6 +40,8 @@ export default function Home() {
       console.info("IS EXPIREDDDDD");
     },
   });
+
+  console.log("POINTSSY", calcData.points);
 
   const handleStartTest = () => {
     if (startTimeValue) resumeTimer();
@@ -60,36 +66,34 @@ export default function Home() {
     setWriteUp(paragraph);
   };
 
-  // space key should add to this value
-  let currentIndex = 0;
-
-  // TODO::   Fix this function
+  // FIX::
   const setAccumPoints = () => {
-    if (userInput.trim().split(" ").length === 1) {
-      // console.log(challengeArray[currentIndex].trim().toLocaleLowerCase());
+    // if (userInput.trim().split(" ").length === 1) {
+    //   // console.log(challengeArray[currentIndex].trim().toLocaleLowerCase());
 
-      userInput.trim().toLocaleLowerCase() ===
-        challengeArray[currentIndex].trim().toLocaleLowerCase() &&
-        (points += 1);
-      console.info("YOUR POINT SO FAR", points);
-      return;
-    }
+    //   userInput.trim().toLocaleLowerCase() ===
+    //     challengeArray[0].trim().toLocaleLowerCase() &&
+    //     setCalcData({ ...calcData, points: calcData.points + 1 });
 
-    userInput.trim().toLocaleLowerCase() ===
-      challengeArray[currentIndex].trim().toLocaleLowerCase() && (points += 1);
+    //   console.info("YOUR POINT SO FAR", calcData.points);
+    //   return;
+    // }
 
     if (
-      userInput.trim().split(" ")[currentIndex].toLocaleLowerCase() ===
-      challengeArray[currentIndex].trim().toLocaleLowerCase()
-    )
-      points += 1;
-    console.info("YOUR POINT SO FAR", points);
+      userInput.trim().split(" ")[calcData.currentIndex].toLocaleLowerCase() ===
+      challengeArray[calcData.currentIndex].trim().toLocaleLowerCase()
+    ) {
+      setCalcData({ ...calcData, points: calcData.points + 1 });
+    }
   };
 
   const handleOnKeyUp = (key) => {
     if (key === " ") {
       setAccumPoints();
-      currentIndex += 1;
+      setCalcData({
+        ...calcData,
+        currentIndex: calcData.currentIndex + 1,
+      });
     }
   };
 
@@ -103,7 +107,7 @@ export default function Home() {
         <TimeUpModal
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          points={points}
+          points={calcData.points}
           totalAvailablePoints={totalAvailablePoints}
         />
 
