@@ -1,5 +1,4 @@
 import { Button, ButtonGroup } from "@chakra-ui/react";
-import "react-circular-progressbar/dist/styles.css";
 
 import BaseDialog from "./base/BaseDialog";
 
