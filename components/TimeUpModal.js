@@ -19,7 +19,7 @@ export default function TimeUpModal({
       <div className="">
         <p>
           Congratulations, you are done with this assessment, you scored
-          <b className=""> {points}points</b> out of{" "}
+          <b className=""> {points} points</b> out of{" "}
           <b>{totalAvailablePoints}</b>
         </p>
       </div>

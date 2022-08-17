@@ -1,5 +1,5 @@
 import { Box, Button } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTimer } from "react-timer-hook";
 import TextInput from "../components/TextInput";
 import Timer from "../components/Timer";
@@ -13,17 +13,15 @@ export default function Home() {
   const [writeUp, setWriteUp] = useState("");
   const [userInput, setUserInput] = useState("");
 
-  const [calcData, setCalcData] = useState({
-    points: 0,
-    currentIndex: 0,
-  });
-
   let totalAvailablePoints = writeUp ? writeUp.split(" ").length : 0;
 
   const challengeArray = writeUp ? writeUp.trim().split(" ") : [];
 
   const fmtTime = new Date();
   fmtTime.setSeconds(fmtTime.getSeconds() + 60 * startTimeValue);
+
+  let points = useRef(0);
+  let currentIndex = useRef(0);
 
   const {
     minutes,
@@ -40,8 +38,6 @@ export default function Home() {
       console.info("IS EXPIREDDDDD");
     },
   });
-
-  console.log("POINTSSY", calcData.points);
 
   const handleStartTest = () => {
     if (startTimeValue) resumeTimer();
@@ -80,20 +76,17 @@ export default function Home() {
     // }
 
     if (
-      userInput.trim().split(" ")[calcData.currentIndex].toLocaleLowerCase() ===
-      challengeArray[calcData.currentIndex].trim().toLocaleLowerCase()
+      userInput.trim().split(" ")[currentIndex.current].toLocaleLowerCase() ===
+      challengeArray[currentIndex.current].trim().toLocaleLowerCase()
     ) {
-      setCalcData({ ...calcData, points: calcData.points + 1 });
+      points.current = points.current + 1;
     }
   };
 
   const handleOnKeyUp = (key) => {
     if (key === " ") {
       setAccumPoints();
-      setCalcData({
-        ...calcData,
-        currentIndex: calcData.currentIndex + 1,
-      });
+      currentIndex.current = currentIndex.current + 1;
     }
   };
 
@@ -107,7 +100,7 @@ export default function Home() {
         <TimeUpModal
           isModalOpen={isModalOpen}
           setIsModalOpen={setIsModalOpen}
-          points={calcData.points}
+          points={points.current}
           totalAvailablePoints={totalAvailablePoints}
         />
 
