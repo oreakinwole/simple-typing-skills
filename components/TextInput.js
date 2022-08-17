@@ -25,7 +25,7 @@ export default function TextInput({
         }}
         // Using this only for the challenge input
         onChange={(e) => handleWriteUpInput(e.target.value)}
-        // disabled={!startTimeValue}
+        disabled={!startTimeValue}
       />
     </>
   );
